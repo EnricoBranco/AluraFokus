@@ -1,14 +1,23 @@
 const html = document.querySelector('html')
-const focoBt = document.querySelector('.app__card-button--foco')
-const curtoBt = document.querySelector('.app__card-button--curto')
-const longoBt = document.querySelector('.app__card-button--longo')
+const modosBt = document.querySelectorAll('.app__card-button')
 const banner = document.querySelector('.app__image')
 const titulo = document.querySelector('.app__title')
+const startBt = document.querySelector('#alternar-musica')
+const musica = new Audio ('/sons/luna-rise-part-one.mp3')
+
+musica.loop = true
+
+function alterarBotao(i) {
+    modosBt[i].classList.add('active')
+}
 
 function alterarContexto(contexto) {
     html.setAttribute('data-contexto', contexto)
     banner.setAttribute('src', `/imagens/${contexto}.png`)
-    
+    modosBt.forEach(function(elemento) {
+        elemento.classList.remove('active')
+    })
+
     switch(contexto) {
         case"foco":
             titulo.innerHTML = `Otimize sua produtividade,<br>
@@ -25,14 +34,27 @@ function alterarContexto(contexto) {
     }
 }
 
-focoBt.addEventListener('click', () => {
+modosBt[0].addEventListener('click', () => {
     alterarContexto('foco')
+    alterarBotao(0)
 })
 
-curtoBt.addEventListener('click', () => {
+modosBt[1].addEventListener('click', () => {
     alterarContexto('descanso-curto')
+    alterarBotao(1)
 })
 
-longoBt.addEventListener('click', () => {
+modosBt[2].addEventListener('click', () => {
     alterarContexto('descanso-longo')
+    alterarBotao(2)
 })
+
+startBt.addEventListener('change', () => {
+    if (musica.paused) {
+        musica.play()
+    }
+    else {
+        musica.pause()
+    }
+})
+
